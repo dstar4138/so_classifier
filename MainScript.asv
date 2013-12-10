@@ -6,20 +6,17 @@ function[] = MainScript ( dataset ) % dataset
         %Iris output 2 = Iris-versicolor
         %Iris output 3 = Iris-virginica        
     elseif dataset == 'glass'
-        csv_data = strcat(cd, '\data\glass_data.csv');
     elseif dataset == 'red_wine_quality'
-        csv_data = strcat(cd, '\data\winequality-red.csv');
     else
-        csv_data = strcat(cd, '\data\winequality-white.csv');
+        
     end
+    
+    data = csvread(csv_data);
+    
+
     
     %all other data has been formatted to be the same.
     %Output type is stored on the last column
-    data = csvread(csv_data);
-    
-    [row column] = size(data)
-    
-
     
     
 end
