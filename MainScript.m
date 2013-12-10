@@ -25,10 +25,10 @@ function[] = MainScript ( dataset ) % dataset
     [x y] = hist(data(:,column));
     
     %count the number of different outputs
-    num_of_output = 0;
+    num_of_outputs = 0;
     for i = 1 : numel(x)
         if x(i)>0
-            num_of_output = num_of_output +1;
+            num_of_outputs = num_of_outputs +1;
         end
     end
     
@@ -36,7 +36,7 @@ function[] = MainScript ( dataset ) % dataset
     %first row is the output type
     %second row is counter
     %third and above is the index
-    array_output_type = zeros(1, num_of_output);
+    array_output_type = zeros(1, num_of_outputs);
     fill = 0;
     for i = 1 : row
         element = data(i, column);
@@ -60,22 +60,22 @@ function[] = MainScript ( dataset ) % dataset
     half_min = round(minimal_test_size/2);
     
     %randomly select portion for trainingData
-    trainingData_index = zeros(half_min, num_of_output);
-    for i = 1 : num_of_output
+    trainingData_index = zeros(half_min, num_of_outputs);
+    for i = 1 : num_of_outputs
         temp_array = array_output_type(3:array_output_type(2,i),i);
         rand_elements = randperm( length(temp_array), half_min );
         trainingData_index( :, i ) = temp_array(rand_elements);
     end
     
     %create trainingData and testData
-    sorted_trainingData_index = sort(trainingData_index,'descend')
+    sorted_trainingData_index = sort(trainingData_index,'descend');
     TestingData = data;
-    trainingData = zeros(half_min*num_of_output, column);
+    trainingData = zeros(half_min*num_of_outputs, column);
     for index = 1 : numel(sorted_trainingData_index)
         trainingData(index,:) = data( sorted_trainingData_index(index), :);
         TestingData(index,:) = [];
     end
-    
-    %[weights, factorGradient] = Train_Spemann_Organizer( trainingData );
+
+   [weights, factorGradient] = Train_Spemann_Organizer( trainingData, num_of_outputs, half_min );
     %Spemann_Organizer_Classification( TestingData, weights, factorGradient );
 end
