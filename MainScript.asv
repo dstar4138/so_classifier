@@ -1,13 +1,13 @@
 function[] = MainScript ( dataset ) % dataset
-    if dataset == 'iris'
+    if strcmp(dataset, 'iris')
         csv_data = strcat(cd, '\data\iris_data.csv');
         %Cannot load strings and numbers with csv.. dunno why
         %Iris output 1 = Iris-setosa
         %Iris output 2 = Iris-versicolor
         %Iris output 3 = Iris-virginica        
-    elseif dataset == 'glass'
+    elseif strcmp(dataset, 'glass')
         csv_data = strcat(cd, '\data\glass_data.csv');
-    elseif dataset == 'red_wine_quality'
+    elseif strcmp(dataset, 'red_wine_quality')
         csv_data = strcat(cd, '\data\winequality-red.csv');
     else
         csv_data = strcat(cd, '\data\winequality-white.csv');
@@ -55,21 +55,23 @@ function[] = MainScript ( dataset ) % dataset
     minimal_test_size = min(array_output_type(2,:));
     half_min = round(minimal_test_size/2);
     
-    %Create portion for testing
-    test_data_index = zeros(half_min, num_of_output)
+    %randomly select portion for trainingData
+    trainingData_index = zeros(half_min, num_of_output);
     for i = 1 : num_of_output
         temp_array = array_output_type(3:end,i);
         rand_elements = randperm( length(temp_array), half_min );
-        test_data_index( :, i ) = temp_array(rand_elements);
+        trainingData_index( :, i ) = temp_array(rand_elements);
     end
     
-    test_data = zeros(num_of_output*half_min);
-    for i = 1 : num_of_output
-        for k = 1 : half_min
-            test_data(k*i) = data( test_data_index(k, i), :);
-        end
+    %create trainingData and testData
+    sorted_trainingData_index = sort(trainingData_index,'descend')
+    TestingData = data;
+    trainingData = zeros(half_min*num_of_output, column);
+    for index = 1 : numel(sorted_trainingData_index)
+        trainingData(index,:) = data( sorted_trainingData_index(index), :);
+        TestingData(index,:) = [];
     end
     
-    test_data;
-    
+    %[weights, factorGradient] = Train_Spemann_Organizer( trainingData );
+    %Spemann_Organizer_Classification( TestingData, weights, factorGradient );
 end

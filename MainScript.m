@@ -1,15 +1,19 @@
 function[] = MainScript ( dataset ) % dataset
-    if dataset == 'iris'
+    if strcmp(dataset, 'iris')
+        disp('Iris Data Set')
         csv_data = strcat(cd, '\data\iris_data.csv');
         %Cannot load strings and numbers with csv.. dunno why
         %Iris output 1 = Iris-setosa
         %Iris output 2 = Iris-versicolor
         %Iris output 3 = Iris-virginica        
-    elseif dataset == 'glass'
+    elseif strcmp(dataset, 'glass')
+        disp('Glass Data Set')
         csv_data = strcat(cd, '\data\glass_data.csv');
-    elseif dataset == 'red_wine_quality'
+    elseif strcmp(dataset, 'red_wine_quality')
+        disp('Red Wine Data Set')
         csv_data = strcat(cd, '\data\winequality-red.csv');
     else
+        disp('White Wine Data Set')
         csv_data = strcat(cd, '\data\winequality-white.csv');
     end
     
@@ -55,20 +59,23 @@ function[] = MainScript ( dataset ) % dataset
     minimal_test_size = min(array_output_type(2,:));
     half_min = round(minimal_test_size/2);
     
-    %Create portion for trainingData
+    %randomly select portion for trainingData
     trainingData_index = zeros(half_min, num_of_output);
     for i = 1 : num_of_output
-        temp_array = array_output_type(3:end,i);
+        temp_array = array_output_type(3:array_output_type(2,i),i);
         rand_elements = randperm( length(temp_array), half_min );
         trainingData_index( :, i ) = temp_array(rand_elements);
     end
     
-    %create trainingData
+    %create trainingData and testData
+    sorted_trainingData_index = sort(trainingData_index,'descend')
+    TestingData = data;
     trainingData = zeros(half_min*num_of_output, column);
-    for index = 1 : numel(test_data_index)
-        trainingData(index,:) = data( test_data_index(index), :);
+    for index = 1 : numel(sorted_trainingData_index)
+        trainingData(index,:) = data( sorted_trainingData_index(index), :);
+        TestingData(index,:) = [];
     end
     
-    %Train_Spemann_Organizer( trainingData );
-    
+    %[weights, factorGradient] = Train_Spemann_Organizer( trainingData );
+    %Spemann_Organizer_Classification( TestingData, weights, factorGradient );
 end
