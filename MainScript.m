@@ -52,7 +52,23 @@ function[] = MainScript ( dataset ) % dataset
     end
     
     %half the size of minimal occurance is used for testing
-    minimal_test_size = min(array_output_type(2,:))/2;
+    minimal_test_size = min(array_output_type(2,:));
+    half_min = round(minimal_test_size/2);
     
+    %Create portion for trainingData
+    trainingData_index = zeros(half_min, num_of_output);
+    for i = 1 : num_of_output
+        temp_array = array_output_type(3:end,i);
+        rand_elements = randperm( length(temp_array), half_min );
+        trainingData_index( :, i ) = temp_array(rand_elements);
+    end
+    
+    %create trainingData
+    trainingData = zeros(half_min*num_of_output, column);
+    for index = 1 : numel(test_data_index)
+        trainingData(index,:) = data( test_data_index(index), :);
+    end
+    
+    %Train_Spemann_Organizer( trainingData );
     
 end

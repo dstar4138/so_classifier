@@ -51,5 +51,25 @@ function[] = MainScript ( dataset ) % dataset
         end
     end
     
-    minimal_test_size = min(array_output_type(2,:))
+    %half the size of minimal occurance is used for testing
+    minimal_test_size = min(array_output_type(2,:));
+    half_min = round(minimal_test_size/2);
+    
+    %Create portion for testing
+    test_data_index = zeros(half_min, num_of_output)
+    for i = 1 : num_of_output
+        temp_array = array_output_type(3:end,i);
+        rand_elements = randperm( length(temp_array), half_min );
+        test_data_index( :, i ) = temp_array(rand_elements);
+    end
+    
+    test_data = zeros(num_of_output*half_min);
+    for i = 1 : num_of_output
+        for k = 1 : half_min
+            test_data(k*i) = data( test_data_index(k, i), :);
+        end
+    end
+    
+    test_data;
+    
 end
