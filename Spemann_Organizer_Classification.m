@@ -1,3 +1,10 @@
+%% Spemann_Organizer_Classification.m
+%%  
+%%  Performs a lookup based on our trained weights and gradients each 
+%%  particular factor. We then pick the most popular classification from
+%%  the set of classified factors. This becomes our classification of the
+%%  test sample.
+%% 
 function[ classification ] = Spemann_Organizer_Classification( testSample, weights, factorGradient )
 
     p                       = zeros( size(testSample,2) );
