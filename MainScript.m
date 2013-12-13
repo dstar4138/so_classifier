@@ -6,29 +6,19 @@
 %%  verifying the classification rate of the trained SO_Classifier.
 %%
 %%  Possible values for 
-%%      - dataset: 'iris', 'glass', 'red_wine_quality', 'white_wine_quality'
+%%      - datafile_loc: 'iris_data.csv',
+%%			'glass_data.csv',
+%%			'winequality-red.csv', 'winequality-white.csv'
 %%   
 %%  Note All datasets must have the last column be the class/output-type, and
 %%  all columns must be numeric, no textual or symbolic for the time-being.
 %%
-function[] = MainScript ( dataset ) % dataset
-    if strcmp(dataset, 'iris')
-        disp('Using: Iris Data Set')
-        csv_data = strcat(cd, '\data\iris_data.csv');
-    elseif strcmp(dataset, 'glass')
-        disp('Glass Data Set')
-        csv_data = strcat(cd, '\data\glass_data.csv');
-    elseif strcmp(dataset, 'red_wine_quality')
-        disp('Red Wine Data Set')
-        csv_data = strcat(cd, '\data\winequality-red.csv');
-    else
-        disp('White Wine Data Set')
-        csv_data = strcat(cd, '\data\winequality-white.csv');
-    end
+function[] = MainScript ( datafile_loc ) % dataset
     
     % All other data has been formatted to be the same:
     %   Classification type is stored on the last column.
-    data = csvread(csv_data);
+    disp( ['Using: ' datafile_loc] )
+    data = csvread( [ cd filesep 'data' filesep datafile_loc ] );
     
     [row column] = size(data);
     [x y] = hist(data(:,column))
@@ -92,5 +82,5 @@ function[] = MainScript ( dataset ) % dataset
 
     % Test the remaining data using the classifier. Will print percentages of
     % misclassified and correctly classified individuals from the test data.
-    Test_Classifier( TestingData, weights, factorGradient );
+%    Test_Classifier( TestingData, weights, factorGradient );
 end
