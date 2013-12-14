@@ -25,7 +25,7 @@ function[] = MainScript ( datafile_loc ) % dataset
     
     % Count the number of different classes.
     num_of_outputs = size( unique( data( :, column ) ), 1);
-    disp([ (column-1) ' Factors, ' num_of_outputs ' Classes'])
+    disp([ num2str(column-1) ' Factors, ' num2str(num_of_outputs) ' Classes'])
     
     % Create an index table:
     %   first row is the output type

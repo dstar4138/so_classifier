@@ -6,14 +6,16 @@
 %% value fits each class. The Spemann Organizer uses both to determine the 
 %% final class of new data.
 %%
-function [ weights, factorGradient ] = ...
-	Train_Spemann_Organizer( trainingData, num_of_classes, num_per_class )
+function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num_of_classes, num_per_class )
+
+    % Initialize
+    weights = 0;
+    factorGradient = 0;
 
     % Get the Size of our training data
     [row column] = size(trainingData);
     
     % Locate the end of our data, we assume the final column is the class.
-    rowclass = column
     lastcol  = column - 1
 
     % For each factor, we find the weight and the gradient.
@@ -23,11 +25,11 @@ function [ weights, factorGradient ] = ...
     %    index, returns a vector of membership percentages. In otherwords, the
     %    function gives how likely the new datapoint is apart of each class
     %    given just the value of one factor. Thus, the function is defined as:
-    %		f( i ) = 
+    %		f( i ) = [ dist_1(i), dist_2(i), ..., dist_n(i) ] 
     for factor = 1 : lastcol
 	for class = 1 : num_of_classes
-	    start = ((class-1) * num_per_output) + 1;
-	    stop  = (start     + num_per_output) - 1;
+	    start = ((class-1) * num_per_class) + 1;
+	    stop  = (start     + num_per_class) - 1;
 	    class_segment = trainingData( start:stop, factor );
 	    
 	    per_class_mean(class)  = mean( class_segment );
@@ -40,7 +42,7 @@ function [ weights, factorGradient ] = ...
         % the particular factor brings to classifying each vector.
 	sigma = Sum_Of_Differences( per_class_mean ); 
 	mu    = Sum_Of_Differences( per_class_range );
-	weights( factor ) .= sqrt( sigma ) / mu;
+	weights( factor ) = sqrt( sigma ) / mu;
 
 	% Generate a lookup function for determining membership percentages.
 	factorGradient( factor ) = CalcGradient( per_class_dist );
@@ -48,13 +50,13 @@ function [ weights, factorGradient ] = ...
 
 
     % Display graphical views of the weights and factor gradients
-    clear all
+    close all
     plot( weights )    
     for parameter = 1 : column-1
-        start = (output-1) * num_per_output + 1
-        stop  = start + num_per_output - 1
+        start = (output-1) * num_per_class + 1
+        stop  = start + num_per_class - 1
         figure
-        for output = 1 : num_of_outputs
+        for output = 1 : num_of_classes
             hist( trainingData( start:stop, parameter) );
             %change the color .. some how separate the outputs
             hold on;
