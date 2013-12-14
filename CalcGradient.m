@@ -10,8 +10,10 @@ function [ MembershipFunction ] = CalcGradient( per_class_dist )
 	% For each distribution (gradient) of each class for 
 	% this factor, find the density (percentage) at a 
 	% given index.
-	MembershipFunction = @(index) cellfun( @(p) pdf(p,[index]), ...
-					       per_class_dist )
-
+	MembershipFunction = @internal_mf;
+	function Dists = internal_mf( index )
+		lookup = @(p) pdf( p, [ index ] )
+		Dists = arrayfun( lookup, per_class_dist )
+	end
 end
 
