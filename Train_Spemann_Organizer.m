@@ -51,7 +51,10 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
 
     % Display graphical views of the weights and factor gradients
     close all
-    plot( weights )    
+    plot( weights )
+    title('Weights of different parameters')
+    xlabel('Parameters')
+    ylabel('weight')
     for parameter = 1 : lastparameter
         start = ((class-1) * num_per_class) + 1;
         stop  = (start     + num_per_class) - 1;
