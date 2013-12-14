@@ -78,5 +78,5 @@ function[] = MainScript ( datafile_loc ) % dataset
 
     % Test the remaining data using the classifier. Will print percentages of
     % misclassified and correctly classified individuals from the test data.
-%    Test_Classifier( TestingData, weights, factorGradient );
+    Test_Classifier( TestingData, weights, factorGradient );
 end

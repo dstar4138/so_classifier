@@ -5,7 +5,7 @@
 %%  belongs to. Note that since most datums we are working with are continuous
 %%  we return a function rather than a lookup vector. 
 %%
-function [ MembershipFunction ] = CalcGradient( per_class_dist )
+function  MembershipFunction = CalcGradient( per_class_dist )
 
 	% For each distribution (gradient) of each class for 
 	% this factor, find the density (percentage) at a 
