@@ -16,7 +16,7 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     [row column] = size(trainingData);
     
     % Locate the end of our data, we assume the final column is the class.
-    lastcol  = column - 1
+    lastparameter  = column - 1;
 
     % For each factor, we find the weight and the gradient.
     %  We define the weight of a factor to be equal to its index of dispersion:
@@ -26,26 +26,26 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     %    function gives how likely the new datapoint is apart of each class
     %    given just the value of one factor. Thus, the function is defined as:
     %		f( i ) = [ dist_1(i), dist_2(i), ..., dist_n(i) ] 
-    for factor = 1 : lastcol
-	for class = 1 : num_of_classes
-	    start = ((class-1) * num_per_class) + 1;
-	    stop  = (start     + num_per_class) - 1;
-	    class_segment = trainingData( start:stop, factor );
-	    
-	    per_class_mean(class)  = mean( class_segment );
-	    per_class_range(class) = var( class_segment );
-	    per_class_dist(class)  = fitdist( class_segment, 'Kernel' );
-	end
+    for factor = 1 : lastparameter
+        for class = 1 : num_of_classes
+            start = ((class-1) * num_per_class) + 1;
+            stop  = (start     + num_per_class) - 1;
+            class_segment = trainingData( start:stop, factor );
 
-	% Weights for the particular factor is the dispersion of each class.
-        % The more different each class is for a single factor, the more weight
-        % the particular factor brings to classifying each vector.
-	sigma = Sum_Of_Differences( per_class_mean ); 
-	mu    = Sum_Of_Differences( per_class_range );
-	weights( factor ) = sqrt( sigma ) / mu;
+            per_class_mean(class)  = mean( class_segment );
+            per_class_range(class) = var( class_segment );
+            per_class_dist(class)  = fitdist( class_segment, 'Kernel' );
+        end
 
-	% Generate a lookup function for determining membership percentages.
-	factorGradient( factor ) = CalcGradient( per_class_dist );
+        % Weights for the particular factor is the dispersion of each class.
+            % The more different each class is for a single factor, the more weight
+            % the particular factor brings to classifying each vector.
+        sigma = Sum_Of_Differences( per_class_mean ); 
+        mu    = Sum_Of_Differences( per_class_range );
+        weights( factor ) = sqrt( sigma ) / mu;
+
+        % Generate a lookup function for determining membership percentages.
+        factorGradient( factor ) = CalcGradient( per_class_dist );
     end
 
 
