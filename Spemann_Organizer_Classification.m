@@ -22,24 +22,24 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
     % and perform a heuristic after the loop.
     for eachFactor = 1 : num_of_factors
 
-	% Get the value of the particular factor.
+        % Get the value of the particular factor.
         p = testSample( eachFactor );
 
-	% Get our factor's lookup table.
-	gradientlookup = factorGradient( eachFactor );
+        % Get our factor's lookup table.
+        gradientlookup = factorGradient( eachFactor )
 
-	% Each factor has a weight based on how unique the factor is.
-	factorWeight    = weights( eachFactor );
+        % Each factor has a weight based on how unique the factor is.
+        factorWeight    = weights( eachFactor );
 
-	% For our factor, we get a set of densities for each class. This 
-	% density represents the likelihood of membership that the sample
-	% belongs to each class. (the one is because its in a cell).
+        % For our factor, we get a set of densities for each class. This 
+        % density represents the likelihood of membership that the sample
+        % belongs to each class. (the one is because its in a cell).
         sampleGradients = gradientlookup( p ); % This is a function, not an array.
 
-	% We scale each of the gradients to the weight.
+        % We scale each of the gradients to the weight.
         heights_of_scaledGradient  = sampleGradients .* factorWeight;
 
-	% We then save the highest rated class for that factor (this step
+        % We then save the highest rated class for that factor (this step
         % can be modified with different effects).
         classify( eachFactor ) = max_index( heights_of_scaledgrads );
     end

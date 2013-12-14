@@ -14,12 +14,12 @@ function [] = Test_Classifier( TestingData, weights, factorGradient )
     NumberOfFails   = 0;
 
     % Assume Classification is stored in the last column for normalized data.
-    class = size( TestingData, 2);
+    index_class = size( TestingData, 2);
 
     % Run through all tests.
     for sample = 1 : NumberOfTests
         
-        real_classification = TestingData( sample, class )
+        real_classification = TestingData( sample, index_class )
 
         [ classification ] = ...
              Spemann_Organizer_Classification( TestingData( sample, : ), ...
