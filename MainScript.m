@@ -20,16 +20,12 @@ function[] = MainScript ( datafile_loc ) % dataset
     disp( ['Using: ' datafile_loc] )
     data = csvread( [ cd filesep 'data' filesep datafile_loc ] );
     
+    % Get the size of our dataset.
     [row column] = size(data);
-    [x y] = hist(data(:,column))
     
     % Count the number of different classes.
-    num_of_outputs = 0;
-    for i = 1 : numel(x)
-        if x(i)>0
-            num_of_outputs = num_of_outputs +1;
-        end
-    end
+    num_of_outputs = size( unique( data( :, column ) ), 1);
+    disp([ (column-1) ' Factors, ' num_of_outputs ' Classes'])
     
     % Create an index table:
     %   first row is the output type

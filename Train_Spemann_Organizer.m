@@ -1,25 +1,55 @@
-function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num_of_outputs, num_per_output )
+%% Train_Spemann_Organizer.m
+%%
+%% Builds a weight vector and factor gradient matrix. The weight vector gives 
+%% the usefulness of a particular factor, in terms of determining the final 
+%% class. The factor gradient matrix gives the percentage at which a particular
+%% value fits each class. The Spemann Organizer uses both to determine the 
+%% final class of new data.
+%%
+function [ weights, factorGradient ] = ...
+	Train_Spemann_Organizer( trainingData, num_of_classes, num_per_class )
+
+    % Get the Size of our training data
     [row column] = size(trainingData);
-    colormap = hsv(column-1);
-    close all
-    for output = 1 : num_of_outputs
-        %all means are stored in row 1 
-        %all variance are stored in row 2
-        factor_stats = zeros(2, column-1);
+    
+    % Locate the end of our data, we assume the final column is the class.
+    rowclass = column
+    lastcol  = column - 1
 
-        start = (output-1) * num_per_output + 1
-        stop  = start + num_per_output - 1
+    % For each factor, we find the weight and the gradient.
+    %  We define the weight of a factor to be equal to its index of dispersion:
+    %		sqr(sigma)/mu, where sigma = variance, mu = mean
+    %  We define the gradient of a factor to be a function which, for a given 
+    %    index, returns a vector of membership percentages. In otherwords, the
+    %    function gives how likely the new datapoint is apart of each class
+    %    given just the value of one factor. Thus, the function is defined as:
+    %		f( i ) = 
+    for factor = 1 : lastcol
+	for class = 1 : num_of_classes
+	    start = ((class-1) * num_per_output) + 1;
+	    stop  = (start     + num_per_output) - 1;
+	    class_segment = trainingData( start:stop, factor );
+	    
+	    per_class_mean(class)  = mean( class_segment );
+	    per_class_range(class) = var( class_segment );
+	    per_class_dist(class)  = fitdist( class_segment, 'Kernel' );
+	end
 
-        factor_stats(1,:) = mean(trainingData( start:stop, 1:column-1));
-        factor_stats(2,:) = var(trainingData( start:stop, 1:column-1));
+	% Weights for the particular factor is the dispersion of each class.
+        % The more different each class is for a single factor, the more weight
+        % the particular factor brings to classifying each vector.
+	sigma = Sum_Of_Differences( per_class_mean ); 
+	mu    = Sum_Of_Differences( per_class_range );
+	weights( factor ) .= sqrt( sigma ) / mu;
 
-        Mean_Diff = Sum_Of_Differences( factor_stats(1,:) );
-        Var_Diff = Sum_Of_Differences( factor_stats(2,:) );
-
-        weights(output) = Mean_Diff/Var_Diff;
+	% Generate a lookup function for determining membership percentages.
+	factorGradient( factor ) = CalcGradient( per_class_dist );
     end
-    
-    
+
+
+    % Display graphical views of the weights and factor gradients
+    clear all
+    plot( weights )    
     for parameter = 1 : column-1
         start = (output-1) * num_per_output + 1
         stop  = start + num_per_output - 1
@@ -30,6 +60,4 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
             hold on;
         end
     end
-    
-factorGradient=0;
 end
