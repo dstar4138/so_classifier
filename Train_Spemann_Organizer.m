@@ -40,10 +40,10 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
         % Weights for the particular factor is the dispersion of each class.
             % The more different each class is for a single factor, the more weight
             % the particular factor brings to classifying each vector.
-        var = Sum_Of_Differences( per_class_mean ); 
-        mu    = Sum_Of_Differences( per_class_range );
+        the_variance   = Sum_Of_Differences( per_class_mean ); 
+        the_mean    = Sum_Of_Differences( per_class_range );
         %index of Dispersion https://en.wikipedia.org/wiki/Index_of_dispersion
-        weights( factor ) = var / mu;
+        weights( factor ) = the_variance / the_mean;
 
         % Generate a lookup function for determining membership percentages.
         factorGradient( factor ) = CalcGradient( per_class_dist );
