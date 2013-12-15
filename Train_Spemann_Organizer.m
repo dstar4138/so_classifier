@@ -31,6 +31,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
             stop  = start + num_per_class( class ) - 1;
             class_segment = trainingData( start:stop, factor );
 
+	    per_class_mode(class)  = mode( class_segment );
             per_class_mean(class)  = mean( class_segment );
             per_class_range(class) = var( class_segment );
             per_class_dist(class)  = { fitdist( class_segment, 'Kernel' ) };
@@ -45,7 +46,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
 	% The difference in the means somewhat captures the idea of how 
         % segregated the classes are because of this factor. If the difference
         % is high, then this factor should be ranked higher than others.
-        rank( factor ) = abs( Sum_Of_Differences( per_class_mean ) );
+        rank( factor ) = abs( Sum_Of_Differences( per_class_mode ) );
 
         % Generate a lookup function for determining membership percentages.
         factorGradient( factor ) = { CalcGradient( per_class_dist ) };
@@ -56,6 +57,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
     close all
     plot( rank ),
     title( 'Rank of each factor in terms of uniqueness' )
+    hold on;
 
     plot( weights' )
     title('Factor Weights per Class')

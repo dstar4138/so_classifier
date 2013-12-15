@@ -39,12 +39,12 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
         classify( eachFactor, : ) = [ rank(eachFactor) i ];
     end
 
-    sort_classification_by_rank = sortrows( classify, -1 )
-    ranked_classification = sort_classification_by_rank(1, 2);
+%    sort_classification_by_rank = sortrows( classify, -1 )
+%    ranked_classification = sort_classification_by_rank(1, 2);
 
     % We pick the most common classification. If there isn't one we 
     % can fall back to the weighting system and pick one based on that.
     classification = mode( classify( :, 2 )' );
 
-    test = [ testSample( end ), ranked_classification, classification ]
+%    test = [ testSample( end ), ranked_classification, classification ]
 end

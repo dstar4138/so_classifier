@@ -16,7 +16,7 @@
 %%  Note All datasets must have the last column be the class/output-type, and
 %%  all columns must be numeric, no textual or symbolic for the time-being.
 %%
-function[] = MainScript ( datafile_loc, test_percent )
+function[] = MainScript ( datafile_loc, test_percent, dont_allow_bias )
    
     % Verify parameters. 
     if test_percent <= 0.0 || test_percent >= 1.0
@@ -61,6 +61,14 @@ function[] = MainScript ( datafile_loc, test_percent )
     
     % Get certain percentage of each possible category. 
     take_counts = ceil( array_output_type( 2, : ) .* test_percent );
+    class_names = array_output_type(1,:);
+
+    % If our data is very misbalanced, we may bias it against smaller 
+    % classifications. This will turn that off.
+    if dont_allow_bias
+	take_count = min( take_counts );
+        take_counts( 1: length(take_counts) ) = take_count;
+    end
 
     % Randomly take percentage of each column and split into two lists of 
     % Indices
@@ -85,5 +93,5 @@ function[] = MainScript ( datafile_loc, test_percent )
 
     % Test the remaining data using the classifier. Will print percentages of
     % misclassified and correctly classified individuals from the test data.
-    Test_Classifier( TestingData, weights, rank, factorGradient );
+    Test_Classifier( TestingData, class_names, weights, rank, factorGradient );
 end
