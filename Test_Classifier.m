@@ -35,6 +35,6 @@ function [] = Test_Classifier( TestingData, weights, factorGradient )
     end 
 
     % Print Our Statistics.
-    disp('Percent of Hits:');    disp( NumberOfMatches / NumberOfTests );
+    disp('Percent of Hits');    disp( NumberOfMatches / NumberOfTests );
     disp('Percent of Misses:'); disp( NumberOfFails / NumberOfTests );
 end
