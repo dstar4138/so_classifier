@@ -8,6 +8,8 @@
 %%
 function [] = Test_Classifier( TestingData, weights, factorGradient )
 
+    disp( 'Testing the trained Classifier: ' );
+
     % Number of Rows in the Testing Data ( # of Samples )
     NumberOfTests   = size( TestingData, 1 );
     NumberOfMatches = 0;
@@ -19,20 +21,20 @@ function [] = Test_Classifier( TestingData, weights, factorGradient )
     % Run through all tests.
     for sample = 1 : NumberOfTests
         
-        real_classification = TestingData( sample, class )
+        real_classification = TestingData( sample, class );
 
         [ classification ] = ...
              Spemann_Organizer_Classification( TestingData( sample, : ), ...
-                                               weights, factorGradient )
+                                               weights, factorGradient );
 
         if classification == real_classification 
-            NumberOfMatches = NumberOfMatches + 1
+            NumberOfMatches = NumberOfMatches + 1;
         else
-            NumberOfFails = NumberOfFails +1
+            NumberOfFails = NumberOfFails + 1;
         end
     end 
 
     % Print Our Statistics.
-    disp('Percent of Hits');    disp( NumberOfMatches / NumberOfTests );
+    disp('Percent of Hits:');    disp( NumberOfMatches / NumberOfTests );
     disp('Percent of Misses:'); disp( NumberOfFails / NumberOfTests );
 end

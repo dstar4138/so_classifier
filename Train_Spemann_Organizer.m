@@ -33,7 +33,7 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
 
             per_class_mean(class)  = mean( class_segment );
             per_class_range(class) = var( class_segment );
-            per_class_dist(class)  = {fitdist( class_segment, 'Kernel' )};
+            per_class_dist(class)  = { fitdist( class_segment, 'Kernel' ) };
         end
 
         % Weights for the particular factor is the dispersion of each class.
@@ -41,6 +41,7 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
         % the particular factor brings to classifying each vector.
         the_variance   = Sum_Of_Differences( per_class_mean ); 
         the_mean    = Sum_Of_Differences( per_class_range );
+
         %index of Dispersion https://en.wikipedia.org/wiki/Index_of_dispersion
         weights( factor ) = the_variance / the_mean;
 
