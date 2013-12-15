@@ -17,20 +17,20 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
         % Get the value of the particular factor.
         p = testSample( eachFactor );
 
-	% Get our factor's lookup table.
-	cell_gl = factorGradient( eachFactor );
-	gradientlookup = cell_gl{ 1 };
+        % Get our factor's lookup table.
+        cell_gl = factorGradient( eachFactor );
+        gradientlookup = cell_gl{ 1 };
 
         % Each factor has a set of weights based on how unique the factor is 
-	% to the particular class.
+        % to the particular class.
         factorWeights   = weights( eachFactor );
 
-	% For our factor, we get a set of densities for each class. This 
-	% density represents the likelihood of membership that the sample
-	% belongs to each class.
+        % For our factor, we get a set of densities for each class. This 
+        % density represents the likelihood of membership that the sample
+        % belongs to each class.
         sampleGradients = gradientlookup(p);
 
-	% We scale each of the gradients to the weight from each class.
+        % We scale each of the gradients to the weight from each class.
         heights  = sampleGradients .* factorWeights;
 
         % We then save the highest rated class for that factor (this step
