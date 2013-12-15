@@ -12,7 +12,7 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     [row column] = size(trainingData);
     
     % Locate the end of our data, we assume the final column is the class.
-    lastparameter  = column - 1;
+    lastfactor  = column - 1;
 
     % For each factor, we find the weight and the gradient.
     %  We define the weight of a factor to be equal to its index of dispersion:
@@ -22,7 +22,7 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     %    function gives how likely the new datapoint is apart of each class
     %    given just the value of one factor. Thus, the function is defined as:
     %		f( i ) = [ dist_1(i), dist_2(i), ..., dist_n(i) ] 
-    for factor = 1 : lastparameter
+    for factor = 1 : lastfactor
         start = 0;
         stop = 0;
 
@@ -54,7 +54,7 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     xlabel('Output Class')
     ylabel('Weight')
     set(gca, 'XTick', 1:num_of_classes );
-    for parameter = 1 : lastparameter
+    for factor = 1 : lastfactor
 	cc = hsv( num_of_classes );
 	start = 0;
 	stop = 0;
@@ -62,13 +62,13 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
         for output = 1 : num_of_classes
             start = stop  + 1;
             stop  = start + num_per_class( output ) - 1;
-            hist( trainingData( start:stop, parameter) );
+            hist( trainingData( start:stop, factor) );
             hold on;
         end
-        title(strcat('Histogram of training data from input parameter ', ...
-            int2str(parameter), ' : separated by different output classes'))
-        xlabel('Parameter values')
-        ylabel('Parameter Occurances')
+        title(strcat('Histogram of training data from input factor-', ...
+            int2str(factor), ' : separated by different output classes'))
+        xlabel('factor values')
+        ylabel('factor Occurances')
         
         plot_handler = findobj(gca, 'Type', 'patch');
         
