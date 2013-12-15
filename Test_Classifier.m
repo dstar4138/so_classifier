@@ -6,7 +6,7 @@
 %%  invalid classifications and will give those percentages at the
 %%  end.
 %%
-function [] = Test_Classifier( TestingData, weights, factorGradient )
+function [] = Test_Classifier( TestingData, weights, rank, factorGradient )
 
     % Number of Rows in the Testing Data ( # of Samples )
     NumberOfTests   = size( TestingData, 1 );
@@ -26,7 +26,7 @@ function [] = Test_Classifier( TestingData, weights, factorGradient )
 
         [ classification ] = ...
              Spemann_Organizer_Classification( TestingData( sample, : ), ...
-                                               weights, factorGradient );
+                                               weights, rank, factorGradient );
 
         if classification == real_classification 
             NumberOfMatches = NumberOfMatches + 1;
