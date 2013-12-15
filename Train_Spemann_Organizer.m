@@ -26,9 +26,12 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     %    given just the value of one factor. Thus, the function is defined as:
     %		f( i ) = [ dist_1(i), dist_2(i), ..., dist_n(i) ] 
     for factor = 1 : lastparameter
+        start = 0;
+        stop = 0;
+
         for class = 1 : num_of_classes
-            start = ((class-1) * num_per_class) + 1;
-            stop  = (start     + num_per_class) - 1;
+            start = stop  + 1;
+            stop  = start + num_per_class( class ) - 1;
             class_segment = trainingData( start:stop, factor );
 
             per_class_mean(class)  = mean( class_segment );
@@ -57,10 +60,12 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     xlabel('Parameters')
     ylabel('weight')
     for parameter = 1 : lastparameter
-        start = ((class-1) * num_per_class) + 1;
-        stop  = (start     + num_per_class) - 1;
+	start = 0;
+	stop = 0;
         figure
         for output = 1 : num_of_classes
+            start = stop  + 1;
+            stop  = start + num_per_class( output ) - 1;
             hist( trainingData( start:stop, parameter) );
             %change the color .. some how separate the outputs
             hold on;

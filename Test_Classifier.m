@@ -8,12 +8,13 @@
 %%
 function [] = Test_Classifier( TestingData, weights, factorGradient )
 
-    disp( 'Testing the trained Classifier: ' );
-
     % Number of Rows in the Testing Data ( # of Samples )
     NumberOfTests   = size( TestingData, 1 );
     NumberOfMatches = 0;
     NumberOfFails   = 0;
+
+    disp( ['Testing the trained Classifier: ' num2str(NumberOfTests)] );
+
 
     % Assume Classification is stored in the last column for normalized data.
     class = size( TestingData, 2);
