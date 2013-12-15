@@ -6,7 +6,8 @@
 %%  verifying the classification rate of the trained SO_Classifier.
 %%
 %%  Possible values for 
-%%      - datafile_loc: 'iris_data.csv',
+%%      - datafile_loc: 
+%%          'iris_data.csv',
 %%			'glass_data.csv',
 %%			'winequality-red.csv', 
 %%			'winequality-white.csv'
