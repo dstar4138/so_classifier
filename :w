@@ -53,9 +53,8 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     title('Factor Weights per Class')
     xlabel('Output Class')
     ylabel('Weight')
-    set(gca, 'XTick', 1:num_of_classes );
     for parameter = 1 : lastparameter
-	cc = hsv( num_of_classes );
+	cc = hsv( num_of_classes )
 	start = 0;
 	stop = 0;
         figure
