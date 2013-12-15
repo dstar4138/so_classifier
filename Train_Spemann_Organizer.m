@@ -54,9 +54,9 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
     xlabel('Parameters')
     ylabel('weight')
     for parameter = 1 : lastparameter
-	cc = hsv( num_of_classes )
-	start = 0;
-	stop = 0;
+        cc = hsv( num_of_classes );
+        start = 0;
+        stop = 0;
         figure
         for output = 1 : num_of_classes
             start = stop  + 1;
@@ -66,7 +66,8 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
         end
         
         plot_handler = findobj(gca, 'Type', 'patch');
-	for output = 1 : num_of_classes
+        
+        for output = 1 : num_of_classes
             set(plot_handler(output), 'FaceColor', cc(output, :), 'EdgeColor', [0 0 0] );
         end
     end
