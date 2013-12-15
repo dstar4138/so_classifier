@@ -64,6 +64,10 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
             hist( trainingData( start:stop, parameter) );
             hold on;
         end
+        title(strcat('Histogram of training data from input parameter ', ...
+            int2str(parameter), ' : separated by different output classes'))
+        xlabel('Parameter values')
+        ylabel('Parameter Occurances')
         
         plot_handler = findobj(gca, 'Type', 'patch');
         
