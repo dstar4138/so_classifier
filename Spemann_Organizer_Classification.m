@@ -34,7 +34,8 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
 
         % We then save the highest rated class for that factor (this step
         % can be modified with different effects).
-        classify( eachFactor ) = find( heights == max( heights(:) ) );
+        [~, i] = max( heights(:) );
+        classify( eachFactor ) = i;
     end
 
     % We pick the most common classification. If there isn't one we 
