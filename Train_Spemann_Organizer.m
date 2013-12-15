@@ -8,9 +8,6 @@
 %%
 function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num_of_classes, num_per_class )
 
-    % Initialize
-    weights = 0;
-
     % Get the Size of our training data
     [row column] = size(trainingData);
     
@@ -39,14 +36,11 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
             per_class_dist(class)  = { fitdist( class_segment, 'Kernel' ) };
         end
 
-        % Weights for the particular factor is the dispersion of each class.
-        % The more different each class is for a single factor, the more weight
-        % the particular factor brings to classifying each vector.
-        the_variance   = Sum_Of_Differences( per_class_mean ); 
-        the_mean    = Sum_Of_Differences( per_class_range );
-
-        %index of Dispersion https://en.wikipedia.org/wiki/Index_of_dispersion
-        weights( factor ) = the_variance / the_mean;
+        % Weights for the particular factor is the index of dispersion of each 
+        % class. The "more different" each class is for a single factor, the 
+        % more weight the particular factor brings to classifying each vector.
+        %    For more: https://en.wikipedia.org/wiki/Index_of_dispersion
+        weights( factor, : ) = per_class_range ./ per_class_mean;
 
         % Generate a lookup function for determining membership percentages.
         factorGradient( factor ) = { CalcGradient( per_class_dist ) };
