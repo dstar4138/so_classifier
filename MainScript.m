@@ -80,10 +80,10 @@ function[] = MainScript ( datafile_loc, test_percent )
     % Train the Spemann Organizer, will get back the Weighting system for each
     % factor and the K-Factor Gradient Matrix for each possible class.
     disp(['Training with ' num2str(size(TrainingData,1)) ' entries']);
-    [weights, factorGradient] = ...
+    [weights, rank, factorGradient] = ...
             Train_Spemann_Organizer( TrainingData, num_of_outputs, take_counts );
 
     % Test the remaining data using the classifier. Will print percentages of
     % misclassified and correctly classified individuals from the test data.
-    Test_Classifier( TestingData, weights, factorGradient );
+    Test_Classifier( TestingData, weights, rank, factorGradient );
 end

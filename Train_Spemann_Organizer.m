@@ -6,7 +6,7 @@
 %% value fits each class. The Spemann Organizer uses both to determine the 
 %% final class of new data.
 %%
-function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num_of_classes, num_per_class )
+function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingData, num_of_classes, num_per_class )
 
     % Get the Size of our training data
     [row column] = size(trainingData);
@@ -42,6 +42,11 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
         %    For more: https://en.wikipedia.org/wiki/Index_of_dispersion
         weights( factor, : ) = per_class_range ./ per_class_mean;
 
+	% The difference in the means somewhat captures the idea of how 
+        % segregated the classes are because of this factor. If the difference
+        % is high, then this factor should be ranked higher than others.
+        rank( factor ) = abs( Sum_Of_Differences( per_class_mean ) );
+
         % Generate a lookup function for determining membership percentages.
         factorGradient( factor ) = { CalcGradient( per_class_dist ) };
     end
@@ -49,6 +54,9 @@ function[ weights, factorGradient ] = Train_Spemann_Organizer( trainingData, num
 
     % Display graphical views of the weights and factor gradients
     close all
+    plot( rank ),
+    title( 'Rank of each factor in terms of uniqueness' )
+
     plot( weights' )
     title('Factor Weights per Class')
     xlabel('Output Class')

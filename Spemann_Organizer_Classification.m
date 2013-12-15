@@ -5,7 +5,7 @@
 %%  the set of classified factors. This becomes our classification of the
 %%  test sample.
 %% 
-function[ classification ] = Spemann_Organizer_Classification( testSample, weights, factorGradient )
+function[ classification ] = Spemann_Organizer_Classification( testSample, weights, rank, factorGradient )
 
     % Assuming correct classification stored in final column
     num_of_factors = size(testSample, 2)-1;
@@ -36,10 +36,15 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
         % We then save the highest rated class for that factor (this step
         % can be modified with different effects).
         [~, i] = max( heights(:) );
-        classify( eachFactor ) = i;
+        classify( eachFactor, : ) = [ rank(eachFactor) i ];
     end
+
+    sort_classification_by_rank = sortrows( classify, -1 )
+    ranked_classification = sort_classification_by_rank(1, 2);
 
     % We pick the most common classification. If there isn't one we 
     % can fall back to the weighting system and pick one based on that.
-    classification = mode( classify );
+    classification = mode( classify( :, 2 )' );
+
+    test = [ testSample( end ), ranked_classification, classification ]
 end
