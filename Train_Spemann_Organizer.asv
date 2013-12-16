@@ -57,7 +57,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
     plot( rank' ),
     title( 'Rank of each factor in terms of uniqueness' )
     xlabel('Factor')
-    ylabel('Weight of Rank')
+    ylabel('Rank')
     
     figure    
     plot( weights' )
