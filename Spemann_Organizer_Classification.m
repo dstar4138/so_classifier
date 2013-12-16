@@ -9,6 +9,8 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
 
     % Assuming correct classification stored in final column
     num_of_factors = size(testSample, 2)-1;
+    fill = 0;
+    classify = zeros(1,3);
 
     % For each factor find the best classification. We could also find top two 
     % and perform a heuristic after the loop.
@@ -36,15 +38,27 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
         % We then save the highest rated class for that factor (this step
         % can be modified with different effects).
         [~, i] = max( heights(:) );
-        classify( eachFactor, : ) = [ rank(eachFactor) i ];
+	member = ismember( classify( :, 1 ), i );
+	ind = find(member>0);
+	if isempty(ind)
+		fill = fill +1;
+		classify(fill, :) = [ i , 1, rank( eachFactor ) ];
+	else
+		classify(ind, 2) = classify(ind,2)+1;
+		classify(ind, 3) = classify(ind,3)+rank(eachFactor);
+   	end
     end
 
-%    sort_classification_by_rank = sortrows( classify, -1 )
-%    ranked_classification = sort_classification_by_rank(1, 2);
+    % Sort based on mode.
+    classify = sortrows(classify, -2);
+    
+    % If there are multiple of the same mode, choose highest rank.
+    cur_mode = classify(1,2);
+    if length(find(classify(:,2)==cur_mode)) > 1
+	classify = sortrows( classify, -3 );
+    end 
 
-    % We pick the most common classification. If there isn't one we 
-    % can fall back to the weighting system and pick one based on that.
-    classification = mode( classify( :, 2 )' );
+    % Otherwise, just return the most popular.
+    classification = classify(1,1);
 
-%    test = [ testSample( end ), ranked_classification, classification ]
 end

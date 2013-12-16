@@ -47,7 +47,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
         % segregated the classes are because of this factor. If the difference
         % is high, then this factor should be ranked higher than others.
 	range = max(trainingData( :, factor)) - min(trainingData( :, factor));
-        rank( factor ) = abs( Sum_Of_Differences( per_class_mode ./ range ) )
+        rank( factor ) = Sum_Of_Differences( per_class_mode ./ range ); 
 
         % Generate a lookup function for determining membership percentages.
         factorGradient( factor ) = { CalcGradient( per_class_dist ) };
