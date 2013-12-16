@@ -1,5 +1,10 @@
-function[ total_Diff ] = Sum_Of_Differences( array )
-    %Make matrix of all the differences
+%% Sum_Of_Differences.m
+%% 	
+%%  Given an array of numbers this will return a single value which is the
+%%  sum of differences of all values in the array.
+%%
+function [ total_Diff ] = Sum_Of_Differences( array )
+    % Make matrix of all the differences
     x = array';
     D = squareform( pdist(x,@(p,q)q-p) );
     U = triu(D);
@@ -21,5 +26,4 @@ function[ total_Diff ] = Sum_Of_Differences( array )
     
     %take the total
     total_Diff = sum(output);
-    
 end

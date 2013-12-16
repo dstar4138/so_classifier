@@ -17,7 +17,7 @@ function [] = Test_Classifier( TestingData, class_names, weights, rank, factorGr
 
 
     % Assume Classification is stored in the last column for normalized data.
-    class = size( TestingData, 2);
+    class = size( TestingData, 2 );
 
     % Run through all tests.
     for sample = 1 : NumberOfTests

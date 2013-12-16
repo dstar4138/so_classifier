@@ -46,7 +46,7 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
 	else
 		classify(ind, 2) = classify(ind,2)+1;
 		classify(ind, 3) = classify(ind,3)+rank(eachFactor);
-   	end
+	end
     end
 
     % Sort based on mode.

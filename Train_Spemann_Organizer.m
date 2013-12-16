@@ -53,7 +53,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
         factorGradient( factor ) = { CalcGradient( per_class_dist ) };
     end
 
-    rank = FixRank( rank );
+    [ rank ] = FixRank( rank );
 
     % Display graphical views of the weights and factor gradients
     close all
