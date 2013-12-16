@@ -14,7 +14,7 @@ function[ total_Diff ] = Sum_Of_Differences( array )
     for r = 1 : row
         for c = shift : column
             i = i + 1;
-            output(i) = y(r,c);
+            output(i) = abs( y(r,c) );
         end
         shift = shift + 1;
     end
