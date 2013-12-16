@@ -53,6 +53,8 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
         factorGradient( factor ) = { CalcGradient( per_class_dist ) };
     end
 
+    rank = FixRank( rank );
+
     % Display graphical views of the weights and factor gradients
     close all
     plot( rank' ),
@@ -77,10 +79,10 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
             hist( trainingData( start:stop, factor) );
             hold on;
         end
-        title(strcat('Histogram of training data from input factor-', ...
-            int2str(factor), ' : separated by different output classes'))
+        title(strcat('Concentraion level per Class of Input Factor-', ...
+                     int2str(factor)))
         xlabel('factor values')
-        ylabel('factor Occurances')
+        ylabel('concentration level')
         
         plot_handler = findobj(gca, 'Type', 'patch');
         

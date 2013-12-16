@@ -14,7 +14,7 @@
 %%  Note All datasets must have the last column be the class/output-type, and
 %%  all columns must be numeric, no textual or symbolic for the time-being.
 %%
-function[] = MainScript ( datafile_loc, test_percent, allow_bias )
+function[] = MainScript ( datafile_loc, test_percent )
    
     % Verify parameters. 
     if test_percent <= 0.0 || test_percent >= 1.0
@@ -63,10 +63,10 @@ function[] = MainScript ( datafile_loc, test_percent, allow_bias )
 
     % If our data is very misbalanced, we may bias it against smaller 
     % classifications. This will turn that off.
-    if not( allow_bias )
+%    if not( allow_bias ) % We assume False is being passed in.
         take_count = min( take_counts );
         take_counts( 1: length(take_counts) ) = take_count;
-    end
+%    end
 
     % Randomly take percentage of each column and split into two lists of 
     % Indices
