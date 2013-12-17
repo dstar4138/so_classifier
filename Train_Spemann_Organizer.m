@@ -41,7 +41,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
         % class. The "more different" each class is for a single factor, the 
         % more weight the particular factor brings to classifying each vector.
         %    For more: https://en.wikipedia.org/wiki/Index_of_dispersion
-        weights( factor, : ) = per_class_range ./ per_class_mean;
+	weights( factor, : ) = per_class_mean ./ per_class_range;
 
         % The difference in the means somewhat captures the idea of how 
         % segregated the classes are because of this factor. If the difference
