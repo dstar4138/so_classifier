@@ -41,12 +41,12 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
         % class. The "more different" each class is for a single factor, the 
         % more weight the particular factor brings to classifying each vector.
         %    For more: https://en.wikipedia.org/wiki/Index_of_dispersion
-	weights( factor, : ) = per_class_mean ./ per_class_range;
+        weights( factor, : ) = per_class_mean ./ per_class_range;
 
         % The difference in the means somewhat captures the idea of how 
         % segregated the classes are because of this factor. If the difference
         % is high, then this factor should be ranked higher than others.
-	range = max(trainingData( :, factor)) - min(trainingData( :, factor));
+        range = max(trainingData( :, factor)) - min(trainingData( :, factor));
         rank( factor ) = Sum_Of_Differences( per_class_mode ./ range ); 
 
         % Generate a lookup function for determining membership percentages.
@@ -56,7 +56,7 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
     [ rank ] = FixRank( rank );
 
     % Display graphical views of the weights and factor gradients
-    close all
+    figure
     plot( rank' ),
     title( 'Rank of each factor in terms of uniqueness' )
     xlabel('Factor')
@@ -69,9 +69,9 @@ function[ weights, rank, factorGradient ] = Train_Spemann_Organizer( trainingDat
     ylabel('Weight')
     set(gca, 'XTick', 1:num_of_classes );
     for factor = 1 : lastfactor
-	cc = hsv( num_of_classes );
-	start = 0;
-	stop = 0;
+        cc = hsv( num_of_classes );
+        start = 0;
+        stop = 0;
         figure
         for output = 1 : num_of_classes
             start = stop  + 1;

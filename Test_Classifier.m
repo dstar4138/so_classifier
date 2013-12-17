@@ -27,7 +27,7 @@ function [] = Test_Classifier( TestingData, class_names, weights, rank, factorGr
         [ class_index ] = ...
              Spemann_Organizer_Classification( TestingData( sample, : ), ...
                                                weights, rank, factorGradient );
-	classification = class_names( class_index );
+        classification = class_names( class_index );
 
         if classification == real_classification 
             NumberOfMatches = NumberOfMatches + 1;

@@ -38,15 +38,15 @@ function[ classification ] = Spemann_Organizer_Classification( testSample, weigh
         % We then save the highest rated class for that factor (this step
         % can be modified with different effects).
         [~, i] = max( heights(:) );
-	member = ismember( classify( :, 1 ), i );
-	ind = find(member>0);
-	if isempty(ind)
-		fill = fill +1;
-		classify(fill, :) = [ i , 1, rank( eachFactor ) ];
-	else
-		classify(ind, 2) = classify(ind,2)+1;
-		classify(ind, 3) = classify(ind,3)+rank(eachFactor);
-	end
+        member = ismember( classify( :, 1 ), i );
+        ind = find(member>0);
+        if isempty(ind)
+            fill = fill +1;
+            classify(fill, :) = [ i , 1, rank( eachFactor ) ];
+        else
+            classify(ind, 2) = classify(ind,2)+1;
+            classify(ind, 3) = classify(ind,3)+rank(eachFactor);
+        end
     end
 
     % Sort based on mode.
